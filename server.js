@@ -24,8 +24,46 @@ app.get("/categories", (req, res) => {
   res.json(categoriesResponse);
 });
 
+app.get("/categories/:id", (req, res) => {
+  const category = categoriesResponse.categories.find(
+    (item) => item.id == req.params.id,
+  );
+
+  if (!category) {
+    return res.status(404).json({
+      success: false,
+      message: "Category not found",
+      id: req.params.id
+    });
+  }
+
+  return res.json({
+    success: true,
+    category
+  });
+});
+
 app.get("/api/categories", (req, res) => {
   res.redirect("/categories");
+});
+
+app.get("/api/categories/:id", (req, res) => {
+  const category = categoriesResponse.categories.find(
+    (item) => item.id == req.params.id,
+  );
+
+  if (!category) {
+    return res.status(404).json({
+      success: false,
+      message: "Category not found",
+      id: req.params.id,
+    });
+  }
+
+  return res.json({
+    success: true,
+    category,
+  });
 });
 
 app.get("/products", (req, res) => {
